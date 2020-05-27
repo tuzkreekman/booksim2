@@ -40,4 +40,10 @@
 
 using namespace std;
 
+typedef struct {
+    int start;
+    int end;
+    int len;
+} e_msg;
+
 #endif

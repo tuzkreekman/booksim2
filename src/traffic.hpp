@@ -43,7 +43,8 @@ public:
   virtual void reset();
   virtual int dest(int source) = 0;
   static TrafficPattern * New(string const & pattern, int nodes, 
-			      Configuration const * const config = NULL);
+			      vector<e_msg> msg_pattern,
+                  Configuration const * const config = NULL);
 };
 
 class PermutationTrafficPattern : public TrafficPattern {
@@ -73,6 +74,13 @@ public:
 class BitRevTrafficPattern : public BitPermutationTrafficPattern {
 public:
   BitRevTrafficPattern(int nodes);
+  virtual int dest(int source);
+};
+
+class IllusionTrafficPattern : public TrafficPattern {
+public:
+  vector<e_msg> msgs;
+  IllusionTrafficPattern(int nodes, vector<e_msg> pattern);
   virtual int dest(int source);
 };
 

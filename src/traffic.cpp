@@ -46,7 +46,8 @@ void TrafficPattern::reset()
 }
 
 TrafficPattern * TrafficPattern::New(string const & pattern, int nodes, 
-				     Configuration const * const config)
+	             vector<e_msg> msg_pattern,
+			     Configuration const * const config)
 {
   string pattern_name;
   string param_str;
@@ -93,6 +94,8 @@ TrafficPattern * TrafficPattern::New(string const & pattern, int nodes,
     result = new RandomPermutationTrafficPattern(nodes, perm_seed);
   } else if(pattern_name == "uniform") {
     result = new UniformRandomTrafficPattern(nodes);
+  } else if(pattern_name == "illusion") {
+    result = new IllusionTrafficPattern(nodes, msg_pattern);
   } else if(pattern_name == "background") {
     vector<int> excludes = tokenize_int(params[0]);
     result = new UniformBackgroundTrafficPattern(nodes, excludes);
@@ -375,6 +378,26 @@ RandomTrafficPattern::RandomTrafficPattern(int nodes)
   : TrafficPattern(nodes)
 {
 
+}
+
+IllusionTrafficPattern::IllusionTrafficPattern(int nodes, vector<e_msg> msg_pattern)
+  : TrafficPattern(nodes)
+{
+  /* Parse Illusion traffic and fill array */
+  for (int i=0; i<msg_pattern.size(); i++) msgs.push_back(msg_pattern[i]);
+}
+
+int IllusionTrafficPattern::dest(int source)
+{
+  assert((source >= 0) && (source < _nodes));
+  int dest;
+  vector<int> options;
+  for (int i=0; i<msgs.size(); i++) if (msgs[i].start==source) options.push_back(msgs[i].end);
+  assert(options.size()>0);
+  dest = RandomInt(options.size() -1);
+  dest = options[dest];
+  assert((dest >= 0) && (dest < _nodes));
+  return dest;
 }
 
 UniformRandomTrafficPattern::UniformRandomTrafficPattern(int nodes)

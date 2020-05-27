@@ -227,8 +227,22 @@ TrafficManager::TrafficManager( const Configuration &config, const vector<Networ
 
     _injection_process.resize(_classes);
 
+    // TODO parse nested list {[(start,end,msg),(start,end,msg)],[(start,end,msg)...]}
+    vector<e_msg> _illusion_mapping; // hard code all to be this one. SVHN N=8 , word size msg not byte
+    _illusion_mapping.push_back({0,1,577});
+    _illusion_mapping.push_back({1,2,40});
+    _illusion_mapping.push_back({2,3,144});
+    _illusion_mapping.push_back({3,4,144});
+    _illusion_mapping.push_back({4,5,144});
+    _illusion_mapping.push_back({5,6,143});
+    _illusion_mapping.push_back({6,7,53});
+    _illusion_mapping.push_back({7,0,1537});
+
+    _schedule.push_back(_illusion_mapping);
+    _schedule.resize(_classes, _schedule.back()); 
+
     for(int c = 0; c < _classes; ++c) {
-        _traffic_pattern[c] = TrafficPattern::New(_traffic[c], _nodes, &config);
+        _traffic_pattern[c] = TrafficPattern::New(_traffic[c], _nodes, _schedule[c], &config);
         _injection_process[c] = InjectionProcess::New(injection_process[c], _nodes, _load[c], &config);
     }
 
@@ -788,10 +802,10 @@ void TrafficManager::_GeneratePacket( int source, int stype,
     assert(stype!=0);
 
     Flit::FlitType packet_type = Flit::ANY_TYPE;
-    int size = _GetNextPacketSize(cl); //input size 
     int pid = _cur_pid++;
     assert(_cur_pid);
     int packet_destination = _traffic_pattern[cl]->dest(source);
+    int size = _GetNextPacketSize(cl,source,packet_destination); //input size 
     bool record = false;
     bool watch = gWatchOut && (_packets_to_watch.count(pid) > 0);
     if(_use_read_write[cl]){
@@ -2247,7 +2261,7 @@ void TrafficManager::_LoadWatchList(const string & filename){
     }
 }
 
-int TrafficManager::_GetNextPacketSize(int cl) const
+int TrafficManager::_GetNextPacketSize(int cl, int source, int dest) const
 {
     assert(cl >= 0 && cl < _classes);
 
@@ -2257,6 +2271,15 @@ int TrafficManager::_GetNextPacketSize(int cl) const
     if(sizes == 1) {
         return psize[0];
     }
+
+    if (_traffic[cl]=="illusion") { // use schedule
+        // assume only one combo of (start,end,msg) for cl
+        for (int i=0; i<sizes; i++) {
+            if (_schedule[cl][i].start==source && _schedule[cl][i].end==dest) return _schedule[cl][i].len;
+        }
+        assert(0);
+        return 1; // default?? debug val?
+    } 
 
     vector<int> const & prate = _packet_size_rate[cl];
     int max_val = _packet_size_max_val[cl];

@@ -94,7 +94,7 @@ int BatchTrafficManager::_IssuePacket( int source, int cl )
     if((_packet_seq_no[source] < _batch_size) && 
        ((_max_outstanding <= 0) || 
 	(_requestsOutstanding[source] < _max_outstanding))) {
-      result = _GetNextPacketSize(cl);
+      result = _GetNextPacketSize(cl, source, -1);
       _requestsOutstanding[source]++;
     }
   }
