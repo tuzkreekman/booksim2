@@ -31,6 +31,7 @@
 #include <limits>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 
 #include "booksim.hpp"
 #include "booksim_config.hpp"
@@ -227,21 +228,19 @@ TrafficManager::TrafficManager( const Configuration &config, const vector<Networ
 
     _injection_process.resize(_classes);
 
-    // TODO parse nested list {[(start,end,msg),(start,end,msg)],[(start,end,msg)...]}
-    vector<e_msg> _illusion_mapping; // hard code all to be this one. SVHN N=8 , word size msg not byte
-    _illusion_mapping.push_back({0,1,577});
-    _illusion_mapping.push_back({1,2,40});
-    _illusion_mapping.push_back({2,3,144});
-    _illusion_mapping.push_back({3,4,144});
-    _illusion_mapping.push_back({4,5,144});
-    _illusion_mapping.push_back({5,6,143});
-    _illusion_mapping.push_back({6,7,53});
-    _illusion_mapping.push_back({7,0,1537});
+    // parse nested list {{{start,end,msg},{start,end,msg}},{{start,end,msg}...},...}
+    vector<string> schedule_str = config.GetStrArray("traffic_schedule");
+    schedule_str.resize(_classes, schedule_str.back());
 
-    _schedule.push_back(_illusion_mapping);
-    _schedule.resize(_classes, _schedule.back()); 
+    _schedule.resize(_classes);
 
     for(int c = 0; c < _classes; ++c) {
+        vector<string> sub_parsed = tokenize_str(schedule_str[c]);
+        for (int j=0; j<sub_parsed.size();j++) {
+            vector<int> parsed = tokenize_int(sub_parsed[j]);
+            e_msg current = {parsed[0],parsed[1],parsed[2]};
+            _schedule[c].push_back(current);
+        }
         _traffic_pattern[c] = TrafficPattern::New(_traffic[c], _nodes, _schedule[c], &config);
         _injection_process[c] = InjectionProcess::New(injection_process[c], _nodes, _load[c], &config);
     }
