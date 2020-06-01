@@ -25,12 +25,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 
-hold_switch_for_packet=1;
+num_vcs = 8;
+vc_buf_size = 8;
 
-vc_buf_size = 16;
 
-
-wait_for_tail_credit = 0;
+wait_for_tail_credit = 1;
 
 //
 // Router architecture
@@ -45,16 +44,9 @@ vc_alloc_delay = 1;
 sw_alloc_delay = 1;
 st_final_delay = 1;
 
-input_speedup     = 1;
+input_speedup     = 2;
 output_speedup    = 1;
 internal_speedup  = 1.0;
-
-
-warmup_periods = 3;
-sim_count          = 1;
-
-sample_period  = 10000;  
-
 
 
 routing_function = nca;
@@ -63,11 +55,14 @@ num_vcs     = 4;
 priority = none;
 traffic       = uniform;
 
-injection_rate = 0.6;
-packet_size = 1;
-injection_rate_uses_flits=1;
+injection_rate = 0.01;
+packet_size = 20;
 
 topology = fattree;
+sim_type = latency;
+sim_power=1;
+tech_file = ./power/techfile.txt;
+power_output_file = power_fattree.txt;
 
 
 k  = 4;

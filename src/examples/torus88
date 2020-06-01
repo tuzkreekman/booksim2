@@ -37,7 +37,8 @@ routing_function = dim_order;
 num_vcs = 2;
 // Traffic
 traffic = uniform;
-injection_rate = 0.1;
+packet_size = 20;
+injection_rate = 0.01;
 
 sim_power=1;
 tech_file = ./power/techfile.txt;
