@@ -54,15 +54,16 @@ sw_alloc_delay = 1;
 input_speedup     = 2;
 output_speedup    = 1;
 internal_speedup  = 1.0;
-
-
+stats_out = test.m;
+sim_power=1;
+tech_file = ./power/techfile.txt;
+power_output_file = power_mesh.txt;
 // Traffic
-traffic = transpose;
+traffic = uniform;
 packet_size = 20;
-
 
 // Simulation
 sim_type = latency;
 
-injection_rate = 0.005;
+injection_rate = 0.01;
 

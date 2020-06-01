@@ -37,4 +37,8 @@ routing_function = dim_order;
 num_vcs = 2;
 // Traffic
 traffic = uniform;
-injection_rate = 0.15;
+injection_rate = 0.1;
+
+sim_power=1;
+tech_file = ./power/techfile.txt;
+power_output_file = power_torus.txt;
