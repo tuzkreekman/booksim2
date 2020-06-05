@@ -156,7 +156,7 @@ BookSimConfig::BookSimConfig( )
   _int_map["classes"] = 1;
 
   AddStrField( "traffic", "uniform" );
-  AddStrField( "traffic_schedule", "{}" );
+  AddStrField( "traffic_schedule", "{[(0-1-100)]}" );
 
   _int_map["class_priority"] = 0;
   AddStrField("class_priority", ""); // workaraound to allow for vector specification
