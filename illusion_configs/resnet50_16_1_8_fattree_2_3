@@ -1,0 +1,15 @@
+topology = fattree;
+k = 2;
+n = 3;
+// Routing
+routing_function = nca;
+// Flow control
+num_vcs = 2;
+// Traffic
+traffic = illusion;
+traffic_schedule = {{{7,0,314646},{0,0,131072},{0,1,131072},{1,1,82944},{1,2,82944},{2,2,159348},{2,3,41356},{3,3,109172},{3,4,91532},{4,4,616},{4,5,3480},{5,7,2000},{6,7,0}}};
+
+sim_power=1;
+tech_file = ../src/power/techfile.txt;
+power_output_file = power_resnet50_16_1_8_fattree_2_3.txt;
+

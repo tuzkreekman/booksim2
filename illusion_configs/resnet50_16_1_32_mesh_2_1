@@ -1,0 +1,15 @@
+topology = mesh;
+k = 2;
+n = 1;
+// Routing
+routing_function = dor;
+// Flow control
+num_vcs = 2;
+// Traffic
+traffic = illusion;
+traffic_schedule = {{{1,0,314646},{0,0,109466},{0,1,91238},{1,1,2000}}};
+
+sim_power=1;
+tech_file = ../src/power/techfile.txt;
+power_output_file = power_resnet50_16_1_32_mesh_2_1.txt;
+

@@ -1,0 +1,15 @@
+topology = torus;
+k = 8;
+n = 1;
+// Routing
+routing_function = dim_order;
+// Flow control
+num_vcs = 2;
+// Traffic
+traffic = illusion;
+traffic_schedule = {{{7,0,306456},{0,0,50176},{0,1,50176},{1,2,50176},{2,3,50176},{0,3,1502},{1,3,2674},{2,3,2674},{3,3,1342},{0,4,1502},{1,4,2674},{2,4,2674},{3,4,1342},{4,7,2000},{5,7,0},{6,7,0}}};
+
+sim_power=1;
+tech_file = ../src/power/techfile.txt;
+power_output_file = power_vgg_net_16_1_64_torus_8_1.txt;
+

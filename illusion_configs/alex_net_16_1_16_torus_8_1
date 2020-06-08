@@ -1,0 +1,15 @@
+topology = torus;
+k = 8;
+n = 1;
+// Routing
+routing_function = dim_order;
+// Flow control
+num_vcs = 2;
+// Traffic
+traffic = illusion;
+traffic_schedule = {{{7,0,309174},{0,0,18432},{0,1,18432},{1,2,18432},{2,3,18432},{3,4,18432},{0,4,1006},{1,4,1820},{2,4,1820},{3,4,1820},{4,4,1726},{0,5,1006},{1,5,1820},{2,5,1820},{3,5,1820},{4,5,1726},{0,6,1006},{1,6,1820},{2,6,1820},{3,6,1820},{4,6,1726},{4,6,212},{5,6,4096},{6,6,3884},{6,7,7324},{7,7,2000}}};
+
+sim_power=1;
+tech_file = ../src/power/techfile.txt;
+power_output_file = power_alex_net_16_1_16_torus_8_1.txt;
+
