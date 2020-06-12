@@ -20,6 +20,8 @@ num_vcs = 2;
 // Traffic
 traffic = illusion;
 traffic_schedule = {%s};
+latency_thres = 10000.0;
+//sample_period = 10000; 
 
 sim_power=1;
 tech_file = ../src/power/techfile.txt;
@@ -129,6 +131,8 @@ def main(net, word=16, batch=1):
                             msgs[k][1] = N-1
                         else:
                             msgs[k][1] = int(msgs[k][1].split("_")[1]) -1 #0 index
+
+                        msgs[k][2] = int(msgs[k][2]/16) # 128 bit network
 
                     for k in range(N):
                         if not visited[k]:

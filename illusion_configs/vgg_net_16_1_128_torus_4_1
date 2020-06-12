@@ -7,7 +7,9 @@ routing_function = dim_order;
 num_vcs = 2;
 // Traffic
 traffic = illusion;
-traffic_schedule = {{{3,0,306456},{0,0,50176},{0,1,50176},{0,1,4176},{1,1,4016},{0,2,4176},{1,2,4016},{2,3,2000}}};
+traffic_schedule = {{{3,0,19153},{0,0,3136},{0,1,3136},{0,1,261},{1,1,251},{0,2,261},{1,2,251},{2,3,125}}};
+latency_thres = 10000.0;
+//sample_period = 10000; 
 
 sim_power=1;
 tech_file = ../src/power/techfile.txt;
